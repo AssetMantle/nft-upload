@@ -18,8 +18,8 @@ export async function nftStorageUpload() {
   );
   console.log(config);
 
-  const imagesBasePath = path.join(__dirname, '../images');
-  const metadataBasePath = path.join(__dirname, '../metadata');
+  const imagesBasePath = path.join(__dirname, 'images/');
+  const metadataBasePath = path.join(__dirname, 'metadata/');
 
   // Get list of images and metadata
   const images = fs.readdirSync(imagesBasePath);
