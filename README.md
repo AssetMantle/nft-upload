@@ -1,9 +1,15 @@
 # NFT Collection Upload!
 
-A script for nft collections to IPFS.
 
+Once the assets and metadata files are ready, next step is to upload the same at some storage mechanism. It is recommended to use decentralized storage solution such as IPFS.
+
+Option 1 : Using NFT.storage and script
+
+Please ensure that your images are named numerically in a sequential manner.
+
+**Steps**
 ```shell
-# Install nodejs in your system
+Note: Install nodejs in your system
 sudo apt install nodejs npm -y
 sudo npm i -g npm@latest
 sudo npm i -g yarn@latest
