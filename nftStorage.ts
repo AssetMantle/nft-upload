@@ -11,12 +11,59 @@ const config = require('./config');
 const token = config.nftStorageApiKey;
 const client = new NFTStorage({ token });
 
+export const checkFiles = (images: string[], metadata: string[]) => {
+  // Check images length is equal to metadata length
+  if (images.length !== metadata.length) {
+    throw Error('Images files must have matching number of metadata files associated to it');
+  }
+
+  function parseFileName(path: string | null): number {
+    // Check file name is not null
+    if (!path) {
+      throw Error('File cannot be null');
+    }
+
+    // Extract fileName from path
+    const fileName = path.match(
+      /([a-zA-Z0-9\s_\\.\-:]+)(.png|.jpg|.gif|.json)?$/i
+    )![1];
+
+    // Check that file name is an Integer
+    if (isNaN(parseInt(fileName, 10))) {
+      throw Error('Filenames must be numeric.Please enter a valid fileName: ' + fileName);
+    }
+    return parseInt(fileName, 10);
+  }
+
+  // We need to ensure that the files are numerically sorted (as opposed to lexicographically)
+  const sortedImages = [...images.map(parseFileName)].sort(function (a, b) {
+    return a - b;
+  });
+  const sortedMetadata = [...metadata.map(parseFileName)].sort(function (a, b) {
+    return a - b;
+  });
+  let lastValue;
+  // Check each image is sequentially named with a number and has a matching metadata file
+  for (let i = 0; i < sortedImages.length; i++) {
+    const image = sortedImages[i];
+    const json = sortedMetadata[i];
+    if (image !== json) {
+      throw Error('Images must have matching JSON files');
+    }
+    if (lastValue && lastValue + 1 !== image) {
+      throw Error('Images must be sequential');
+    }
+    lastValue = image;
+  }
+};
+
 export async function nftStorageUpload() {
   // Config
   console.log(
     'Deploying files to IPFS via NFT.storage using the following configuration:'
   );
   console.log(config);
+  console.log("Uplaoding");
 
   const imagesBasePath = path.join(__dirname, 'images/');
   const metadataBasePath = path.join(__dirname, 'metadata/');
@@ -25,12 +72,17 @@ export async function nftStorageUpload() {
   const images = fs.readdirSync(imagesBasePath);
   const metadata = fs.readdirSync(metadataBasePath);
 
+  checkFiles(images, metadata);
+
   // Upload images folder
   const imageFiles = await getFilesFromPath(imagesBasePath);
   const imagesBaseUri = await client.storeDirectory(imageFiles as any);
 
+  console.log("");
+  console.log(imagesBaseUri);
+
   // Create temp upload folder for metadata
-  const tmpFolder = fs.mkdtempSync(path.join(os.tmpdir(), 'galaxy'));
+  const tmpFolder = fs.mkdtempSync(path.join(os.tmpdir(), 'metadata-'));
 
   // Update metadata with IPFS hashes
   metadata.map(async (file, index: number) => {
@@ -60,6 +112,9 @@ export async function nftStorageUpload() {
   console.log('Set this field in your config.js file: ');
   console.log('baseTokenUri: ', baseTokenUri);
 
+  const status = await client.status(imagesBaseUri);
+  console.log("");
+  console.log(status);
   return {
     baseTokenUri,
   };
