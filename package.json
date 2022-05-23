@@ -2,13 +2,15 @@
   "name": "nft-uploader",
   "version": "0.0.1",
   "devDependencies": {
-      "typescript": "^4.6.4"
-    },
+    "typescript": "^4.6.4"
+  },
   "dependencies": {
-      "files-from-path": "^0.2.6",
-      "nft.storage": "^6.2.0"
-    },
-    "scripts": {
-      "nft-storage-upload": "ts-node ./nftStorage.ts"
-    }
+    "files-from-path": "^0.2.6",
+    "nft.storage": "^6.2.0",
+    "web3.storage": "^4.2.0"
+  },
+  "scripts": {
+    "nft-storage-upload": "ts-node ./nftStorage.ts",
+    "web3-storage-upload": "ts-node ./web3Storage.ts"
+  }
 }
