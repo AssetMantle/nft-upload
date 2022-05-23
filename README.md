@@ -40,12 +40,12 @@ type - String, bool, number, URI, height
     {
     "name": "edition",
     "type": "number",
-    "value": "1"
+    "value": 1
     },
     {
     "name":"rare",
     "type": "bool",
-    "value": "true"
+    "value": true
     },
   ],
   "description": "This is the sample metadata file",
