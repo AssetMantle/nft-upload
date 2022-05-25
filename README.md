@@ -1,7 +1,8 @@
 # Assets and Metadata Structure
 
 ## Collection Structure
-NFT asset files (images,audio, video, GIFs) and metadata.json file to respective assets. 
+
+NFT asset files (images,audio, video, GIFs) and metadata.json file to respective assets.
 
 Note: to link the respective assets(images/videos) with respective metadata, it is very important to have the Folder structure in the following format for Assets represtnation and minting.
 
@@ -54,32 +55,29 @@ type - String, bool, number, URI, height
 }
 
 ```
+
 ## Reserved Properties
 
 The following properties are reserved at the protocol level so creators are requested to avoid using the following properties as the traits to avoid conflict of interest.
+
 ```
-Authentication       
-Burn                 
-Expiry   
+Authentication
+Burn
+Expiry
 ExchangeRate
-Lock                 
-MaintainedProperties 
-MakerOwnableSplit    
-NubID                
-Permissions   
+Lock
+MaintainedProperties
+MakerOwnableSplit
+NubID
+Permissions
 Supply
-TakerID              
+TakerID
 ```
 
-More details to be announced and updated at 
+More details to be announced and updated at
 https://docs.assetmantle.one/
 
-
-
-
 # NFT Collection Upload
-
-
 
 Once the assets and metadata files are ready, next step is to upload the same at some storage mechanism. It is recommended to use decentralized storage solution such as IPFS.
 
@@ -88,6 +86,7 @@ Once the assets and metadata files are ready, next step is to upload the same at
 Please ensure that your images are named numerically in a sequential manner.
 
 **Steps**
+
 ```shell
 Note: Install nodejs in your system
 sudo apt install nodejs npm -y
@@ -115,4 +114,36 @@ yarn install
 
 # Paste that APIKey in config.js file (nftStorageAPIKey) there.
 yarn nft-storage-upload
+```
+
+## Option 2 : Using Web3.storage and script
+
+```shell
+Note: Steps are same as NFT.Storage.upload
+Note: Install nodejs in your system
+sudo apt install nodejs npm -y
+sudo npm i -g npm@latest
+sudo npm i -g yarn@latest
+sudo npm i -g ts-node@latest
+
+# Create a nft-upload-project directory
+# Move your images and metadata folders there
+mkdir nft-upload-project
+cd nft-upload-project
+
+# Folder Structure
+Project
+├── nft-upload (tool folder)
+    ├── images (assets/images folder)
+    ├── metadata (metadata folder)
+
+# Install dependencies
+# Change your directory to script folder
+cd nft-upload
+yarn install
+
+# Create an API on web3.storage and Copy that API key
+
+# Paste that APIKey in config.js file (web3StorageAPIKey) there.
+yarn web3-storage-upload
 ```
