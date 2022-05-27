@@ -72,9 +72,13 @@ export const checkFiles = (images: string[], metadata: string[]) => {
     // Get list of images and metadata
     const images = fs.readdirSync(imagesBasePath);
     const metadata = fs.readdirSync(metadataBasePath);
-  
+ try { 
     checkFiles(images, metadata);
-  
+  } catch (err) {
+    console.log(err);
+    console.log(err.name);
+     console.log(err.message); 
+   } 
     // Upload images folder
     const imageFiles = await getFilesFromPath(imagesBasePath);
     const imagesBaseUri = await client.put(imageFiles as any);
@@ -120,4 +124,10 @@ console.log('baseTokenUri: ', baseTokenUri);
 // };
 }
 
+try {
 web3StorageUpload();
+} catch (err) {
+  console.log(err);
+  console.log(err.name);
+   console.log(err.message); 
+ }

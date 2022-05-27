@@ -14,13 +14,13 @@ const client = new NFTStorage({ token });
 export const checkFiles = (images: string[], metadata: string[]) => {
   // Check images length is equal to metadata length
   if (images.length !== metadata.length) {
-    throw Error('Images files must have matching number of metadata files associated to it');
+    console.log('Images files must have matching number of metadata files associated to it');
   }
 
   function parseFileName(path: string | null): number {
     // Check file name is not null
     if (!path) {
-      throw Error('File cannot be null');
+      console.log('File cannot be null');
     }
 
     // Extract fileName from path
@@ -30,7 +30,7 @@ export const checkFiles = (images: string[], metadata: string[]) => {
 
     // Check that file name is an Integer
     if (isNaN(parseInt(fileName, 10))) {
-      throw Error('Filenames must be numeric.Please enter a valid fileName: ' + fileName);
+      console.log('Filenames must be numeric.Please enter a valid fileName: ' + fileName);
     }
     return parseInt(fileName, 10);
   }
@@ -48,10 +48,10 @@ export const checkFiles = (images: string[], metadata: string[]) => {
     const image = sortedImages[i];
     const json = sortedMetadata[i];
     if (image !== json) {
-      throw Error('Images must have matching JSON files');
+      console.log('Images must have matching JSON files');
     }
     if (lastValue && lastValue + 1 !== image) {
-      throw Error('Images must be sequential');
+      console.log('Images must be sequential');
     }
     lastValue = image;
   }
@@ -72,7 +72,13 @@ export async function nftStorageUpload() {
   const images = fs.readdirSync(imagesBasePath);
   const metadata = fs.readdirSync(metadataBasePath);
 
+try {
   checkFiles(images, metadata);
+} catch (err) {
+    console.log(err);
+    console.log(err.name);
+     console.log(err.message); 
+   }
 
   // Upload images folder
   const imageFiles = await getFilesFromPath(imagesBasePath);
@@ -120,4 +126,10 @@ export async function nftStorageUpload() {
   };
 }
 
+try {
 nftStorageUpload();
+} catch (err) {
+  console.log(err);
+  console.log(err.name);
+   console.log(err.message); 
+ }
