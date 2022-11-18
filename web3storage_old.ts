@@ -1,3 +1,5 @@
+// THIS SCRIPT HAS NOT BEEN UPDATED AND CURRENTLY IS IN DEPRECATED STATE
+
 import { getFilesFromPath } from 'files-from-path';
 import fs from 'fs';
 import { Web3Storage } from 'web3.storage';
